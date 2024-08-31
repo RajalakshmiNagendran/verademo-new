@@ -9,6 +9,12 @@ pool:
   name: 'azureagent'
 
 steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '8'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'LocalDirectory'
+    jdkFile: '/usr/lib/jvm/java-8-openjdk-amd64'
 - task: Maven@4
   displayName: Build with Maven
   inputs:
