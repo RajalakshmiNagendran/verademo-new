@@ -7,6 +7,9 @@ trigger:
 - main
 pool:
   name: 'azureagent'
+  demands:
+  - JAVA_HOME
+  - MAVEN_HOME
 steps:
 - task: Maven@4
   displayName: Build with Maven
