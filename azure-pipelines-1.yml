@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: 'azureagent'
+  vmImage: 'ubuntu-latest'
 
 steps:
 - task: Maven@4
