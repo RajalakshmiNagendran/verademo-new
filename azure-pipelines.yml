@@ -7,10 +7,13 @@ trigger:
 - main
 pool:
   name: 'azureagent'
-  demands:
-    - JAVA_HOME
-    - MAVEN_HOME
+
 steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '8'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
 - task: Maven@4
   displayName: Build with Maven
   inputs:
