@@ -6,7 +6,7 @@
 trigger:
 - main
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'azureagent'
 steps:
 - task: Maven@3
   displayName: Build with Maven
@@ -29,3 +29,14 @@ steps:
       java -jar pipeline-scan.jar -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f /home/vsts/work/1/s/app/target/verademo.war || true
 - publish: $(System.DefaultWorkingDirectory)/results.json
   artifact: VeracodeBaseline
+
+- task: Veracode@3
+  inputs:
+    ConnectionDetailsSelection: 'Service Connection'
+    AnalysisService: 'veracodeservice'
+    veracodeAppProfile: '$(system.teamProject)'
+    version: '$(build.buildNumber)'
+    filepath: '$(build.artifactstagingdirectory)'
+    sandboxName: 'verademosandbox'
+    createSandBox: true
+    maximumWaitTime: '60'
