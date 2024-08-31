@@ -24,9 +24,10 @@ steps:
   inputs:
     ConnectionDetailsSelection: 'Service Connection'
     AnalysisService: 'veracodeservice'
-    veracodeAppProfile: '$(system.teamProject)'
+    veracodeAppProfile: 'Rajalakshmi test'
     version: '$(build.buildNumber)'
     filepath: '$(build.artifactstagingdirectory)'
     sandboxName: 'veracodesandbox'
     createSandBox: true
+    importResults: true
     maximumWaitTime: '60'
