@@ -36,7 +36,7 @@ steps:
     AnalysisService: 'veracodeservice'
     veracodeAppProfile: 'Rajalakshmi test'
     version: '$(build.buildNumber)'
-    filepath: '$(build.artifactstagingdirectory)'
+    filepath: '$(System.DefaultWorkingDirectory)'
     sandboxName: 'appsandbox'
     createSandBox: true
     failBuildIfUploadAndScanBuildStepFails: true
