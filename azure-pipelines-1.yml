@@ -29,5 +29,6 @@ steps:
     filepath: '$(build.artifactstagingdirectory)'
     sandboxName: 'veracodesandbox'
     createSandBox: true
+    failBuildIfUploadAndScanBuildStepFails: true
     importResults: true
     maximumWaitTime: '60'
