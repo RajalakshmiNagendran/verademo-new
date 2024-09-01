@@ -34,7 +34,7 @@ steps:
     AnalysisService: 'veracodeservice' 
     veracodeAppProfile: 'Rajalakshmi test' 
     version: '$(build.buildNumber)' 
-    filepath: '$(System.artifactstagingdirectory)'
+    filepath: '$(System.DefaultWorkingDirectory)/app/target/verademo.war'
     optargs: '-criticality high -include *.dll -exclude *.exe -createsandbox true -sandboxname mysandbox -deleteIncompleteScan 1'  
     createSandBox: false 
     createProfile: true 
