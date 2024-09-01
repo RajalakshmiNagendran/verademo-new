@@ -21,7 +21,7 @@ steps:
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
 - task: Bash@3
-  displayName: Veracode Pipeline
+  displayName: Building artifact
   inputs:
     targetType: 'inline'
     script: |
