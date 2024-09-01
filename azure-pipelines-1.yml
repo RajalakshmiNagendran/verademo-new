@@ -1,44 +1,45 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+# This is an example of using VeraDemo Java test application with the Veracode Static Pipeline scanner.  A Veracode subscription is required.
 trigger:
 - main
-
 pool:
   name: 'azureagent'
-
 steps:
-- task: Maven@4
+- task: Maven@3
+  displayName: Build with Maven
   inputs:
     mavenPomFile: 'app/pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+    goals: 'package'
 - task: Bash@3
-  displayName: Building artifact
+  displayName: Veracode Pipeline
   inputs:
     targetType: 'inline'
     script: |
       curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
       unzip -o pipeline-scan-LATEST.zip
-      java -jar pipeline-scan.jar -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f /home/azureuser/myagent/_work/2/s/app/target/verademo.war || true
+      java -jar pipeline-scan.jar -vid $(VERACODE_API_ID) -vkey $(VERACODE_API_KEY) -f /home/vsts/work/1/s/app/target/verademo.war || true
 - publish: $(System.DefaultWorkingDirectory)/results.json
   artifact: VeracodeBaseline
 - task: Veracode@3
   inputs:
-    ConnectionDetailsSelection: 'Service Connection'
-    AnalysisService: 'veracodeservice'
-    veracodeAppProfile: 'Rajalakshmi test'
-    version: '$(build.buildNumber)'
-    filepath: '$(System.DefaultWorkingDirectory)'
-    sandboxName: 'appsandbox'
-    createSandBox: true
-    failBuildIfUploadAndScanBuildStepFails: true
-    importResults: true
-    maximumWaitTime: '60'
+    ConnectionDetailsSelection: 'Service Connection' 
+    AnalysisService: 'veracodeservice' 
+    veracodeAppProfile: 'Rajalakshmi test' 
+    version: '$(build.buildNumber)' 
+    filepath: '$(System.DefaultWorkingDirectory)/app/target'
+    optargs: '-criticality high -include *.dll -exclude *.exe -createsandbox true -sandboxname mysandbox -deleteIncompleteScan 1'  
+    createSandBox: false 
+    createProfile: true 
+    failBuildIfUploadAndScanBuildStepFails: false 
+    importResults: true 
+    failBuildOnPolicyFail: false 
+    maximumWaitTime: '360'
