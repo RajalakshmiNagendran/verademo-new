@@ -35,8 +35,8 @@ steps:
     veracodeAppProfile: 'Rajalakshmi test' 
     version: '$(build.buildNumber)' 
     filepath: '$(System.DefaultWorkingDirectory)/app/target/verademo.war'
-    optargs: '-criticality high -include *.dll -exclude *.exe -createsandbox true -sandboxname mysandbox -deleteIncompleteScan 1'  
-    createSandBox: false 
+    optargs: '-criticality high -include *.dll -exclude *.exe -createsandbox true -sandboxname testsandbox -deleteIncompleteScan 1'  
+    createSandBox: true 
     createProfile: true 
     failBuildIfUploadAndScanBuildStepFails: false 
     importResults: true 
