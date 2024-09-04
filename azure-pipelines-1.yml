@@ -37,7 +37,7 @@ steps:
     filepath: '$(System.DefaultWorkingDirectory)/app/target/verademo.war'
     optargs: '-criticality high -include *.dll -exclude *.exe -createsandbox true -sandboxname testsandbox -deleteIncompleteScan 1'  
     createSandBox: false 
-    createProfile: true
+    createProfile: false
     failBuildIfUploadAndScanBuildStepFails: false 
     importResults: true 
     failBuildOnPolicyFail: false 
