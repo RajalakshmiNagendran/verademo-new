@@ -1,5 +1,11 @@
 image: veracode/pipeline-scan:latest
 
+job_name:
+  tags:
+    - windows
+  script:
+    - echo "Running job"
+
 stages:
   - sync
   - build
