@@ -1,8 +1,17 @@
 image: veracode/pipeline-scan:latest
 
 stages:
+  - sync
   - build
   - scan
+
+sync_changes:
+  stage: sync
+  script:
+    - git clone https://github.com/RajalakshmiNagendran/verademo-new.git
+    - cd verademo-new/
+    - git remote add gitlab http://localhost:80/root/verademo-new.git
+    - git push gitlab main
 
 build_job:
   stage: build
