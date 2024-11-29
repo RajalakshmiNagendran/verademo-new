@@ -9,6 +9,9 @@ name: Veracode Static Analysis Pipeline Scan
 
 on: push
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: self-hosted
