@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('checkout code from Github') {
+            steps {
+                echo 'checking out code from the github repository'
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'githubcred', url: 'https://github.com/RajalakshmiNagendran/verademo-new.git']])
+            }
+        }
+        stage('Build Maven') {
+            steps {
+                dir("app"){
+                    echo 'Building Maven'
+                    bat 'mvn clean install'
+                }
+            }
+        }
+        stage('Veracode Vulnerability Static Analysis') {
+            steps {
+                echo 'Veracode scanning'
+                    withCredentials([ usernamePassword (
+                        credentialsId: 'veracode_credentials', usernameVariable: 'VERACODE_API_ID', passwordVariable: 'VERACODE_API_KEY') ]) {
+                            veracode applicationName: 'veracode_test1', createProfile: false, criticality: 'VeryHigh', debug: true, deleteIncompleteScanLevel: '0', fileNamePattern: '', replacementPattern: '', sandboxName: '', scanExcludesPattern: '', scanIncludesPattern: '', scanName: 'firstscan', teams: '', timeout: 60, uploadIncludesPattern: '**/**.jar', vid: VERACODE_API_ID, vkey: VERACODE_API_KEY, waitForScan: true
+                        }
+            }
+        }    
+    }
+}
